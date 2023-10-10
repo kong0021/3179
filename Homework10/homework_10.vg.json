@@ -1,0 +1,60 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Messi Vs Ronaldo La Liga Goals" },
+    "data": {
+      "url": "https://raw.githubusercontent.com/kong0021/3179/main/MessiRonaldo.csv"
+    },
+    "params": [
+      {
+        "name": "selectedPlayer",
+        "value": "Messi",
+        "bind": {
+          "input": "select",
+          "options": ["Messi", "Ronaldo"],
+          "name": "Select Player"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "calculate": "datum.Player === selectedPlayer ? datum.Liga_Goals : 0",
+        "as": "Filtered_Liga_Goals"
+      }
+    ],
+    "layer": [
+      {
+        "mark": "bar",
+        "encoding": {
+          "x": { "field": "Season", "type": "ordinal", "title": "Season" },
+          "y": { "field": "Filtered_Liga_Goals", "type": "quantitative", "title": "Number of La Liga Goals" },
+          "color": { "field": "Player", "type": "nominal", "title": "Player" },
+          "tooltip": [
+            { "field": "Season", "type": "ordinal", "title": "Season" },
+            { "field": "Filtered_Liga_Goals", "type": "quantitative", "title": "Number of La Liga Goals" }
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center", 
+          "baseline": "top", 
+          "dx": 0,
+          "dy": -10,  
+          "color": "black" 
+        },
+        "encoding": {
+          "x": { "field": "Season", "type": "ordinal" },
+          "y": { "field": "Filtered_Liga_Goals", "type": "quantitative" },
+          "text": { "field": "Filtered_Liga_Goals", "type": "quantitative" },
+          "order": {"field": "Filtered_Liga_Goals", "type": "quantitative", "sort": "descending"}
+        }
+      }
+    ]
+  }
+
+
+
+
+
+
