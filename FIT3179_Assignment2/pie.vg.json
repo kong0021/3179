@@ -1,0 +1,81 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/kong0021/3179/main/ObesityDataSet_raw_and_data_sinthetic.csv"
+    },
+
+    "width": 400,
+    "height": 350,
+    "params": [
+        {
+            "name": "frequency_selection",
+            "value": 1,
+            "bind": {
+                "input": "range",
+                "min": 1,
+                "max": 4,
+                "step": 1,
+                "name": "Frequency level: "
+            }
+        },
+
+        {
+            "name": "category_selection",
+            "value": "FCVC",
+            "bind": {
+                "input": "select",
+                "options": ["FCVC", "NCP", "CH2O"],
+                "name": "Factors: "
+            }
+        }
+    ],
+    "transform": [
+        {
+          "calculate": "category_selection == 'FCVC' ? datum.FCVC : category_selection == 'NCP' ? datum.NCP : datum.CH2O",
+          "as": "category"
+          },
+        {"filter": "datum.category == frequency_selection"},
+        {"aggregate": [{
+            "op": "count", "field": "NObeyesdad", "as": "CountedNObeyesdad"
+        }],
+        "groupby": ["category", "NObeyesdad"]},
+        {"calculate": "format(datum.CountedNObeyesdad, '.2f') + ' - ' + datum.category", "as": "text1"},
+        {
+            "calculate": "category_selection == 'FCVC' ? 'Frequency of consumption of vegetables' : category_selection == 'NCP' ? 'Number of main meals' : 'Consumption of water daily'",
+            "as": "Factors"
+        }
+      ],
+
+    "encoding": {
+        "theta": {"field": "CountedNObeyesdad", "type": "quantitative", "stack":true},
+        "color": {"field": "NObeyesdad", "type": "nominal", "scale": {"range":"category"}},
+          "tooltip": [
+              {"field": "category", "type": "nominal", "title": "Frequency level"},
+              {"field": "CountedNObeyesdad", "type": "quantitative", "title": "Frequency of weight levels"},
+              {"field": "NObeyesdad", "type": "nominal", "title": "Weight category"},
+              {"field": "Factors"}
+          ]
+    },
+    "layer":[
+    {
+        "mark": {"type":"arc", "radius": 150}
+
+    },
+
+    {
+        "mark": {"type": "text", "radius": 170},
+        "encoding": {
+            "text":{
+                "field": "text1",
+                "type": "nominal"
+            },
+            "detail":{
+                "field":"NObeyesdad", "type": "nominal"
+            }
+        }
+    }
+    ]
+}
+      
+        
+  

@@ -1,0 +1,28 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Normalized stacked area chart of daily per capita fat supply by country over time.",
+    "height": 350,
+    "width": 350,
+    "data": {"url": "https://raw.githubusercontent.com/kong0021/3179/main/daily-per-capita-fat-supply.csv"},
+
+    "transform": [
+      {"filter": "datum.Entity == 'United States' || datum.Entity == 'Chile' || datum.Entity == 'Mexico' || datum.Entity == 'New Zealand' || datum.Entity == 'Hungary'"}
+    ],
+
+    "mark": {"type": "area", "interpolate": "monotone"},
+    "encoding": {
+      "x": {"field": "Year", 
+            "timeUnit":"year", "axis":{"domain": false, "format": "%Y"}},
+      "y": {"aggregate": "sum", "field": "Total_grams_fat", "type": "quantitative", "stack": "normalize", "title": "Normalized Daily Total Fat per Capita (grams)"},
+      "color": {"field": "Entity", "type": "nominal", "title": "Country"},
+      "tooltip":[
+        {"field": "Year","timeUnit": "utcyear", "title": "Year"},
+        {"field": "Entity", "type": "nominal", "title": "Country"},
+        {"field": "Total_grams_fat", "type": "quantitative", "title": "Normalized Daily Total Fat per Capita (grams)",
+            "format": "0.2f"} 
+
+      ]
+    }
+    
+
+}

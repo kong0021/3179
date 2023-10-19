@@ -1,0 +1,89 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A ranged dot plot that uses 'layer' to convey changing life expectancy for the five most populous countries (between 1955 and 2000).",
+    "width": 580,
+    "height": 300,
+    "data": {"url": "https://raw.githubusercontent.com/kong0021/3179/main/physac.csv"},
+
+    "params": [
+        {
+            "name": "Region_selection",
+            "bind":{
+                "input": "select",
+                "options": [null, "Global", "Africa", "Americas", "South-East Asia", "Europe", "Eastern Mediterranean", "Western Pacific"],
+                "labels": ["Show All", "Global", "Africa", "Americas", "South-East Asia", "Europe", "Eastern Mediterranean", "Western Pacific"],
+                "name": "Select Region: "
+            }
+        }
+    ],
+    "transform": [
+      {
+        "filter": {
+          "field": "Region",
+          "oneOf": ["Global", "Africa", "Americas", "South-East Asia", "Europe", "Eastern Mediterranean", "Western Pacific"]
+        }
+      },
+      {
+        "filter": {
+          "field": "Year",
+          "oneOf": [2001, 2016]
+        }
+      },
+      {
+        "filter": "datum.Region == Region_selection || Region_selection == null"
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "Both",
+        "type": "quantitative",
+        "scale": {"domain": [0,90]},
+        "title": "Prevalence of lack of physical activity among school going 11-17 aged school going adolescents (%)"
+      },
+      "y": {
+        "field": "Region",
+        "type": "nominal",
+        "title": "WHO Regions",
+        "axis": {
+          "offset": 5,
+          "ticks": false,
+          "minExtent": 70,
+          "domain": false
+        }
+      },
+      "tooltip": [
+        {"field": "Region", "type": "nominal", "title": "WHO Regions"},
+        {"field": "Both", "type": "quantitative", "title": "Prevalence of lack of physical activity among school going 11-17 aged school going adolescents (%)"}
+      ]
+    },
+    "layer": [
+      {
+        "mark": "line",
+        "encoding": {
+          "detail": {
+            "field": "Region",
+            "type": "nominal"
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "point",
+          "filled": true
+        },
+        "encoding": {
+          "color": {
+            "field": "Year",
+            "type": "ordinal",
+            "scale": {
+              "domain": [2001, 2016]
+            },
+            "title": "Year"
+          },
+          "size": {"value": 100},
+          "opacity": {"value": 1}
+        }
+        
+      }
+    ]
+  }

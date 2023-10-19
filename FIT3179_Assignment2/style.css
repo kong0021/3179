@@ -1,0 +1,54 @@
+
+
+h1, h2 {
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: white;
+    margin: auto;
+}
+
+.page {
+    width: 850px;
+    max-width: 100%;
+    background-color: white;
+    margin: auto;
+    padding: 50px;
+    padding-top: 35px;  
+}
+
+.map-container {
+    align-items: center;
+}
+
+.vis-container{
+    width: 100%;
+}
+
+.description h2, .description h1 {
+    margin-top: 0px;
+}
+
+.description-right {
+    padding-left: 20px;
+}
+
+.description-left {
+    padding-right: 20px;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+.pure-g{
+    margin-bottom: 30px;
+        border: 1px solid grey;
+    border-radius: 10px;
+        padding: 30px;
+}
+
+.small-font {
+    font-size: 12px;
+}

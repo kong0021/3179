@@ -1,0 +1,47 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/kong0021/3179/main/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv"
+    },
+
+    "repeat": ["Prevalence of BMI 20  to <25 ", "Prevalence of BMI>=30  (obesity)", "Prevalence of BMI>=35  (severe obesity)", 
+                "Prevalence of BMI >=40 (morbid obesity)"],
+    "columns": 2,
+    "spec": {
+        "width": 300,
+        
+        "layer":[
+
+            {   
+                "transform": [
+                    {
+                        "filter": "datum.Year >= 2000"
+                    }
+                    
+                ],            
+                "mark": {"type": "line",
+                            "point": {
+                                "filled": false,
+                                "fill": "white"
+                            }},
+                "encoding": {
+                    "x": {"field": "Year", "type": "ordinal", "axis":{"grid": true}},
+                    "y": {"field": {"repeat": "repeat"}, "type": "quantitative"},
+                    "color": {"field": "Sex", "type": "nominal",
+                            "scale": {"domain": ["Men", "Women"]},
+                                "legend": {"title": "Sex", "symbolSize": 500}},
+                    "tooltip": [
+                        {"field": "Year", "type": "ordinal"},
+                        {"field": {"repeat": "repeat"}, "type": "quantitative", "format": ".3f"},
+                        {"field": "Sex", "type": "nominal"}
+                    ]
+                }
+
+            }
+            
+            
+        ]
+
+    }
+    
+}
